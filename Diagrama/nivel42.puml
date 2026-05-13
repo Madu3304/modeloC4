@@ -1,0 +1,98 @@
+@startuml nivel4
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Diagrama de Código (Nível 4) - Atendimento Controller SAMU
+
+' =====================================
+' Classes principais
+' =====================================
+
+Class(atendimento_controller, "AtendimentoController") {
+    + criarAtendimento()
+    + buscarAtendimento()
+    + atualizarAtendimento()
+    + sincronizarAtendimento()
+    + gerarRelatorio()
+}
+
+Class(validation_service, "ValidationService") {
+    + validarCamposObrigatorios()
+    + validarFormatoDados()
+}
+
+Class(auth_service, "AuthService") {
+    + validarJWT()
+    + verificarPermissao()
+}
+
+Class(gps_service, "GpsService") {
+    + obterLocalizacao()
+}
+
+Class(pdf_service, "PdfService") {
+    + exportarPDF()
+}
+
+Class(log_service, "LogService") {
+    + registrarLog()
+    + registrarErro()
+}
+
+Class(repository, "AtendimentoRepository") {
+    + salvar()
+    + atualizar()
+    + buscarPorData()
+    + buscarPorUnidade()
+}
+
+Class(database, "PostgreSQL") {
+    + usuarios
+    + atendimentos
+    + unidades
+    + logs
+}
+
+Class(atendimento_model, "Atendimento") {
+    + id
+    + paciente
+    + data
+    + localizacao
+    + status
+}
+
+Class(usuario_model, "Usuario") {
+    + id
+    + nome
+    + login
+    + senha
+    + perfil
+}
+
+' =====================================
+' Relacionamentos
+' =====================================
+
+Rel(atendimento_controller, validation_service, "Valida dados")
+
+Rel(atendimento_controller, auth_service, "Valida acesso")
+
+Rel(atendimento_controller, gps_service, "Obtém localização")
+
+Rel(atendimento_controller, pdf_service, "Gera PDF")
+
+Rel(atendimento_controller, log_service, "Registra logs")
+
+Rel(atendimento_controller, repository, "Manipula dados")
+
+Rel(repository, database, "CRUD")
+
+Rel(repository, atendimento_model, "Persiste")
+
+Rel(repository, usuario_model, "Consulta")
+
+SHOW_LEGEND()
+
+@enduml

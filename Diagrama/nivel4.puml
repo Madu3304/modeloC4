@@ -1,0 +1,81 @@
+@startuml nivel 4
+
+title Diagrama de Código (Nível 4) - Sistema SAMU
+
+skinparam classAttributeIconSize 0
+
+class AtendimentoController {
+    +criarAtendimento()
+    +buscarAtendimento()
+    +atualizarAtendimento()
+    +sincronizarAtendimento()
+    +gerarRelatorio()
+}
+
+class ValidationService {
+    +validarCamposObrigatorios()
+    +validarFormatoDados()
+}
+
+class AuthService {
+    +validarJWT()
+    +verificarPermissao()
+}
+
+class GpsService {
+    +obterLocalizacao()
+}
+
+class PdfService {
+    +exportarPDF()
+}
+
+class LogService {
+    +registrarLog()
+    +registrarErro()
+}
+
+class AtendimentoRepository {
+    +salvar()
+    +atualizar()
+    +buscarPorData()
+    +buscarPorUnidade()
+}
+
+class PostgreSQL {
+    usuarios
+    atendimentos
+    unidades
+    logs
+}
+
+class Atendimento {
+    id
+    paciente
+    data
+    localizacao
+    status
+}
+
+class Usuario {
+    id
+    nome
+    login
+    senha
+    perfil
+}
+
+' Relacionamentos
+
+AtendimentoController --> ValidationService : valida dados
+AtendimentoController --> AuthService : valida acesso
+AtendimentoController --> GpsService : obter GPS
+AtendimentoController --> PdfService : gerar PDF
+AtendimentoController --> LogService : registrar logs
+AtendimentoController --> AtendimentoRepository : manipula dados
+
+AtendimentoRepository --> PostgreSQL : CRUD
+AtendimentoRepository --> Atendimento : persiste
+AtendimentoRepository --> Usuario : consulta
+
+@enduml
