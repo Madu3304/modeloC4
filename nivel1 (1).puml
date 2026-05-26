@@ -22,7 +22,7 @@ System(sistema_samu, "Sistema de Gestão SAMU","Sistema responsável pelo regist
 
 System_Ext(prefeitura, "Banco da Prefeitura","Armazena dados integrados dos atendimentos e registros municipais.")
 
-BiRel(api, gps, "Troca informações de localização", "GPS")
+System_Ext(gps, "Serviço de GPS", "Fornece localização automática das ocorrências.")
 
 System_Ext(pdf, "Serviço de Exportação PDF","Responsável pela geração e exportação de relatórios em PDF.")
 
